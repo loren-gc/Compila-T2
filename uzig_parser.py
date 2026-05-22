@@ -2,7 +2,7 @@
 # This is a natural place to use some kind of generator function.
 
 from sly import Parser
-#from analisador_lexico import zigLexer
+# from analisador_lexico import zigLexer
 
 class zigParser(Parser):
     """
@@ -32,7 +32,15 @@ class zigParser(Parser):
     tokens = zigLexer.tokens
 
     precedence = (
-        ('left', 'KEYWORD_or'), ('left', 'KEYWORD_and'), ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'), ('left', 'LARROW', 'RARROW', 'LARROWEQUAL',  'RARROWEQUAL'), ('left', 'PLUS', 'MINUS'), ('left', 'ASTERISK', 'SLASH', 'PERCENT'), ('right', 'UMINUS', 'EXCLAMATIONMARK'), ('nonassoc', 'IFX'), ('nonassoc', 'KEYWORD_else'),
+        ('left',     'KEYWORD_or'),
+        ('left',     'KEYWORD_and'),
+        ('left',     'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'),
+        ('left',     'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'),
+        ('left',     'PLUS', 'MINUS'),
+        ('left',     'ASTERISK', 'SLASH', 'PERCENT'),
+        ('right',    'UMINUS', 'EXCLAMATIONMARK'),
+        ('nonassoc', 'IFX'),
+        ('nonassoc', 'KEYWORD_else'),
     )
 
     @_('stmtlist')
@@ -49,23 +57,23 @@ class zigParser(Parser):
 
     @_('KEYWORD_var IDENTIFIER COLON type EQUAL expr SEMI')
     def stmt(self, p):
-        return ('var', p.IDENTIFIER, p.type, p.expr)
+        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
 
     @_('KEYWORD_var IDENTIFIER COLON type SEMI')
     def stmt(self, p):
-        return ('var', p.IDENTIFIER, p.type, None)
+        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type)
 
     @_('KEYWORD_const IDENTIFIER COLON type EQUAL expr SEMI')
     def stmt(self, p):
-        return ('const', p.IDENTIFIER, p.type, p.expr)
+        return ('constant: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
 
     @_('IDENTIFIER EQUAL expr SEMI')
     def stmt(self, p):
-        return ('assign', p.IDENTIFIER, p.expr)
+        return ('assignment', 'location: ' + p.IDENTIFIER, p.expr)
 
     @_('KEYWORD_if LPAREN expr RPAREN block %prec IFX')
     def stmt(self, p):
-        return ('if', p.expr, p.block, None)
+        return ('if', p.expr, p.block)
 
     @_('KEYWORD_if LPAREN expr RPAREN block KEYWORD_else stmt')
     def stmt(self, p):
@@ -85,7 +93,7 @@ class zigParser(Parser):
 
     @_('expr SEMI')
     def stmt(self, p):
-        return ('expr_stmt', p.expr)
+        return ('expression', p.expr)
 
     @_('block')
     def stmt(self, p):
@@ -94,70 +102,70 @@ class zigParser(Parser):
     @_('LBRACE stmtlist RBRACE')
     def block(self, p):
         return ('block', p.stmtlist)
-    
+
     @_('IDENTIFIER')
     def type(self, p):
-        return ('type', p.IDENTIFIER)
+        return p.IDENTIFIER
 
     @_('expr KEYWORD_or expr')
     def expr(self, p):
-        return ('or',  p.expr0, p.expr1)
+        return ('binary_op: or',  p.expr0, p.expr1)
 
     @_('expr KEYWORD_and expr')
     def expr(self, p):
-        return ('and', p.expr0, p.expr1)
+        return ('binary_op: and', p.expr0, p.expr1)
 
     @_('expr EQUALEQUAL expr')
     def expr(self, p):
-        return ('==',  p.expr0, p.expr1)
+        return ('binary_op: ==',  p.expr0, p.expr1)
 
     @_('expr EXCLAMATIONMARKEQUAL expr')
     def expr(self, p):
-        return ('!=',  p.expr0, p.expr1)
+        return ('binary_op: !=',  p.expr0, p.expr1)
 
     @_('expr LARROW expr')
     def expr(self, p):
-        return ('<',   p.expr0, p.expr1)
+        return ('binary_op: <',   p.expr0, p.expr1)
 
     @_('expr RARROW expr')
     def expr(self, p):
-        return ('>',   p.expr0, p.expr1)
+        return ('binary_op: >',   p.expr0, p.expr1)
 
     @_('expr LARROWEQUAL expr')
     def expr(self, p):
-        return ('<=',  p.expr0, p.expr1)
+        return ('binary_op: <=',  p.expr0, p.expr1)
 
     @_('expr RARROWEQUAL expr')
     def expr(self, p):
-        return ('>=',  p.expr0, p.expr1)
+        return ('binary_op: >=',  p.expr0, p.expr1)
 
     @_('expr PLUS expr')
     def expr(self, p):
-        return ('+',   p.expr0, p.expr1)
+        return ('binary_op: +',   p.expr0, p.expr1)
 
     @_('expr MINUS expr')
     def expr(self, p):
-        return ('-',   p.expr0, p.expr1)
+        return ('binary_op: -',   p.expr0, p.expr1)
 
     @_('expr ASTERISK expr')
     def expr(self, p):
-        return ('*',   p.expr0, p.expr1)
+        return ('binary_op: *',   p.expr0, p.expr1)
 
     @_('expr SLASH expr')
     def expr(self, p):
-        return ('/',   p.expr0, p.expr1)
+        return ('binary_op: /',   p.expr0, p.expr1)
 
     @_('expr PERCENT expr')
     def expr(self, p):
-        return ('%',   p.expr0, p.expr1)
+        return ('binary_op: %',   p.expr0, p.expr1)
 
     @_('MINUS expr %prec UMINUS')
     def expr(self, p):
-        return ('neg', p.expr)
+        return ('unary_op: -', p.expr)
 
     @_('EXCLAMATIONMARK expr')
     def expr(self, p):
-        return ('not', p.expr)
+        return ('unary_op: !', p.expr)
 
     @_('LPAREN expr RPAREN')
     def expr(self, p):
@@ -165,48 +173,48 @@ class zigParser(Parser):
 
     @_('INTEGER')
     def expr(self, p):
-        return ('int',    int(p.INTEGER))
+        return 'literal: i32, ' + str(p.INTEGER)
 
     @_('FLOAT')
     def expr(self, p):
-        return ('float',  float(p.FLOAT))
+        return 'literal: f32, ' + str(p.FLOAT)
 
     @_('KEYWORD_true')
     def expr(self, p):
-        return ('bool',   True)
+        return 'literal: bool, true'
 
     @_('KEYWORD_false')
     def expr(self, p):
-        return ('bool',   False)
+        return 'literal: bool, false'
 
     @_('CHAR_LITERAL')
     def expr(self, p):
-        return ('char',   p.CHAR_LITERAL)
+        return 'literal: char, ' + str(p.CHAR_LITERAL)
 
     @_('STRINGLITERAL')
     def expr(self, p):
-        return ('string', p.STRINGLITERAL)
+        return 'literal: str, ' + str(p.STRINGLITERAL)
 
     @_('IDENTIFIER LPAREN arglist RPAREN')
     def expr(self, p):
-        return ('call', p.IDENTIFIER, p.arglist)
+        return ('call: ' + p.IDENTIFIER, p.arglist)
 
     @_('IDENTIFIER LPAREN RPAREN')
     def expr(self, p):
-        return ('call', p.IDENTIFIER, [])
+        return ('call: ' + p.IDENTIFIER, [])
 
     @_('BUILTINIDENTIFIER LPAREN arglist RPAREN')
     def expr(self, p):
-        return ('builtin_call', p.BUILTINIDENTIFIER, p.arglist)
+        return ('builtin: ' + p.BUILTINIDENTIFIER, p.arglist)
 
     @_('BUILTINIDENTIFIER LPAREN RPAREN')
     def expr(self, p):
-        return ('builtin_call', p.BUILTINIDENTIFIER, [])
-        
+        return ('builtin: ' + p.BUILTINIDENTIFIER, [])
+
     @_('IDENTIFIER')
     def expr(self, p):
-        return ('var', p.IDENTIFIER)
-        
+        return 'location: ' + p.IDENTIFIER
+
     @_('arglist COMMA expr')
     def arglist(self, p):
         return p.arglist + [p.expr]
@@ -214,7 +222,7 @@ class zigParser(Parser):
     @_('expr')
     def arglist(self, p):
         return [p.expr]
-        
+
     def error(self, token):
         if token:
             raise SyntaxError(
@@ -223,7 +231,42 @@ class zigParser(Parser):
             )
         else:
             raise SyntaxError("Syntax error: unexpected end of input")
+        
+def _build_lines(first, other, values):
+    try:
+        yield first + next(values)
+        for value in values:
+            yield other + value
+    except StopIteration:
+        return
+
+def _build_tree(node):
+    if isinstance(node, list):
+        if not node:
+            return
+        node = tuple(node)
+
+    if not isinstance(node, tuple):
+        yield ' ' + str(node)
+        return
+
+    values = [_build_tree(n) for n in node]
+
+    if len(values) == 1:
+        yield from _build_lines('──', '  ', values[0])
+        return
+
+    start, *mid, end = values
+    yield from _build_lines('┬─', '│ ', start)
+    for value in mid:
+        yield from _build_lines('├─', '│ ', value)
+    yield from _build_lines('└─', '  ', end)
+
+def build_tree(root):
+    return '\n'.join(_build_tree(root))
 
 def parse_tokens(tokens):
-    parser = zigParser()
-    return parser.parse(iter(tokens))
+    tree = zigParser().parse(tokens)
+    if tree is not None:
+        return build_tree(tree)
+    return ''

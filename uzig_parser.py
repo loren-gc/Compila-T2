@@ -271,7 +271,7 @@ def _build_tree(node):
     yield from _build_lines('└─', '  ', end)
 
 def build_tree(root):
-    return '\n'.join(_build_tree(root)).lstrip(' ')
+    return '\n'.join(_build_tree(root))
 
 def parse_tokens(tokens):
     return zigParser().parse(tokens)

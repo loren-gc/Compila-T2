@@ -1,4 +1,4 @@
- # High level function that takes input tokens and turns it into a syntax tree.
+# High level function that takes input tokens and turns it into a syntax tree.
 # This is a natural place to use some kind of generator function.
 
 from sly import Parser

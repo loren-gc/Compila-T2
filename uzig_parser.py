@@ -61,19 +61,19 @@ class zigParser(Parser):
 
     @_('KEYWORD_var IDENTIFIER COLON type SEMI')
     def stmt(self, p):
-        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type)
+        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type, None)
 
     @_('KEYWORD_var IDENTIFIER EQUAL expr SEMI')
     def stmt(self, p):
-        return ('variable: ' + p.IDENTIFIER, p.expr)
+        return ('variable: ' + p.IDENTIFIER, None, p.expr)
 
     @_('KEYWORD_const IDENTIFIER COLON type EQUAL expr SEMI')
     def stmt(self, p):
-        return ('constant: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
+        return ('const: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
 
-    @_('KEYWORD_const IDENTIFIER EQUAL expr SEMI')     # <-- novo
+    @_('KEYWORD_const IDENTIFIER EQUAL expr SEMI')
     def stmt(self, p):
-        return ('constant: ' + p.IDENTIFIER, p.expr)
+        return ('const: ' + p.IDENTIFIER, None, p.expr)
 
     @_('IDENTIFIER EQUAL expr SEMI')
     def stmt(self, p):
@@ -81,7 +81,7 @@ class zigParser(Parser):
 
     @_('KEYWORD_if LPAREN expr RPAREN block %prec IFX')
     def stmt(self, p):
-        return ('if', p.expr, p.block)
+        return ('if', p.expr, p.block, None)
 
     @_('KEYWORD_if LPAREN expr RPAREN block KEYWORD_else stmt')
     def stmt(self, p):
@@ -93,11 +93,11 @@ class zigParser(Parser):
 
     @_('KEYWORD_break SEMI')
     def stmt(self, p):
-        return ('break',)
+        return 'break'
 
     @_('KEYWORD_continue SEMI')
     def stmt(self, p):
-        return ('continue',)
+        return 'continue'
 
     @_('expr SEMI')
     def stmt(self, p):
@@ -185,7 +185,7 @@ class zigParser(Parser):
 
     @_('FLOAT')
     def expr(self, p):
-        return 'literal: f32, ' + str(p.FLOAT)
+        return 'literal: f64, ' + str(p.FLOAT)
 
     @_('KEYWORD_true')
     def expr(self, p):
@@ -197,7 +197,7 @@ class zigParser(Parser):
 
     @_('CHAR_LITERAL')
     def expr(self, p):
-        return 'literal: char, ' + str(p.CHAR_LITERAL)
+        return 'literal: u8, ' + str(p.CHAR_LITERAL)
 
     @_('STRINGLITERAL')
     def expr(self, p):

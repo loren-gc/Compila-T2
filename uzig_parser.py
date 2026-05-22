@@ -63,9 +63,17 @@ class zigParser(Parser):
     def stmt(self, p):
         return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type)
 
+    @_('KEYWORD_var IDENTIFIER EQUAL expr SEMI')
+    def stmt(self, p):
+        return ('variable: ' + p.IDENTIFIER, p.expr)
+
     @_('KEYWORD_const IDENTIFIER COLON type EQUAL expr SEMI')
     def stmt(self, p):
         return ('constant: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
+
+    @_('KEYWORD_const IDENTIFIER EQUAL expr SEMI')     # <-- novo
+    def stmt(self, p):
+        return ('constant: ' + p.IDENTIFIER, p.expr)
 
     @_('IDENTIFIER EQUAL expr SEMI')
     def stmt(self, p):
@@ -263,10 +271,7 @@ def _build_tree(node):
     yield from _build_lines('└─', '  ', end)
 
 def build_tree(root):
-    return '\n'.join(_build_tree(root))
+    return '\n'.join(_build_tree(root)).lstrip(' ')
 
 def parse_tokens(tokens):
-    tree = zigParser().parse(tokens)
-    if tree is not None:
-        return build_tree(tree)
-    return ''
+    return zigParser().parse(tokens)

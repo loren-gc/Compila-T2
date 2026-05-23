@@ -201,7 +201,7 @@ class zigParser(Parser):
 
     @_('STRINGLITERAL')
     def expr(self, p):
-        return 'literal: str, ' + str(p.STRINGLITERAL)
+        return 'literal: []const u8, ' + str(p.STRINGLITERAL)
 
     @_('IDENTIFIER LPAREN arglist RPAREN')
     def expr(self, p):

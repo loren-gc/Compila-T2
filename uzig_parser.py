@@ -135,6 +135,10 @@ class zigParser(Parser):
     @_('MINUS expr %prec UMINUS')
     def expr(self, p):
         return ('unary_op: -', p.expr)
+    
+    @_('PLUS expr %prec UMINUS')
+    def expr(self, p):
+        return ('unary_op: +', p.expr)
 
     @_('EXCLAMATIONMARK expr')
     def expr(self, p):
@@ -196,6 +200,10 @@ class zigParser(Parser):
     def arglist(self, p):
         return [p.expr]
 
+    @_('SEMI')
+    def stmt(self, p):
+        return ('expression', None)
+
     def error(self, token):
         self._had_error = True
         if token:
@@ -214,6 +222,7 @@ def _build_lines(first, other, values):
 def _build_tree(node):
     if isinstance(node, list):
         if not node:
+            yield ' None'
             return
         node = tuple(node)
     if not isinstance(node, tuple):

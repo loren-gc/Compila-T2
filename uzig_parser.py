@@ -236,7 +236,7 @@ class zigParser(Parser):
         if token:
             print(f"Syntax error at line {token.lineno}, token={token.type}")
         else:
-            print("Syntax error: unexpected end of input")
+            print("Parse error in input. EOF")
         
 def _build_lines(first, other, values):
     try:

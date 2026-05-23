@@ -232,6 +232,7 @@ class zigParser(Parser):
         return [p.expr]
 
     def error(self, token):
+        self._had_error = True
         if token:
             print(f"Syntax error at line {token.lineno}, token={token.type}")
         else:
@@ -271,4 +272,9 @@ def build_tree(root):
     return '\n'.join(_build_tree(root))
 
 def parse_tokens(tokens):
-    return zigParser().parse(tokens)
+    parser = zigParser()
+    parser._had_error = False
+    tree = parser.parse(tokens)
+    if parser._had_error:
+        return None
+    return tree

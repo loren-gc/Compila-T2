@@ -2,46 +2,11 @@
 # This is a natural place to use some kind of generator function.
 
 from sly import Parser
-# from analisador_lexico import zigLexer
 
 class zigParser(Parser):
-    """
-    LALR(1) parser for the uZig language.
-    Produces an AST as nested tuples/lists.
-
-    Grammar (informal):
-        program       ::= stmt*
-        stmt          ::= var_decl | const_decl | assign_stmt
-                        | if_stmt  | while_stmt
-                        | break    | continue
-                        | expr_stmt | block
-        var_decl      ::= 'var'   IDENTIFIER ':' type ('=' expr)? ';'
-        const_decl    ::= 'const' IDENTIFIER ':' type  '=' expr   ';'
-        assign_stmt   ::= IDENTIFIER '=' expr ';'
-        if_stmt       ::= 'if' '(' expr ')' block ('else' stmt)?
-        while_stmt    ::= 'while' '(' expr ')' block
-        block         ::= '{' stmt* '}'
-        type          ::= IDENTIFIER
-        expr          ::= binary | unary | primary
-        primary       ::= literal | IDENTIFIER | call | builtin_call | '(' expr ')'
-        call          ::= IDENTIFIER       '(' arglist? ')'
-        builtin_call  ::= BUILTINIDENTIFIER '(' arglist? ')'
-        arglist       ::= expr (',' expr)*
-    """
 
     tokens = zigLexer.tokens
-
-    precedence = (
-        ('left',     'KEYWORD_or'),
-        ('left',     'KEYWORD_and'),
-        ('left',     'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'),
-        ('left',     'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'),
-        ('left',     'PLUS', 'MINUS'),
-        ('left',     'ASTERISK', 'SLASH', 'PERCENT'),
-        ('right',    'UMINUS', 'EXCLAMATIONMARK'),
-        ('nonassoc', 'IFX'),
-        ('nonassoc', 'KEYWORD_else'),
-    )
+    precedence = ('left', 'KEYWORD_or'), ('left', 'KEYWORD_and'), ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'), ('left', 'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'), ('left', 'PLUS', 'MINUS'), ('left', 'ASTERISK', 'SLASH', 'PERCENT'), ('right', 'UMINUS', 'EXCLAMATIONMARK'), ('nonassoc', 'IFX'), ('nonassoc', 'KEYWORD_else')
 
     @_('stmtlist')
     def program(self, p):
@@ -251,17 +216,13 @@ def _build_tree(node):
         if not node:
             return
         node = tuple(node)
-
     if not isinstance(node, tuple):
         yield ' ' + str(node)
         return
-
     values = [_build_tree(n) for n in node]
-
     if len(values) == 1:
         yield from _build_lines('──', '  ', values[0])
         return
-
     start, *mid, end = values
     yield from _build_lines('┬─', '│ ', start)
     for value in mid:

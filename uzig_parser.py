@@ -233,12 +233,9 @@ class zigParser(Parser):
 
     def error(self, token):
         if token:
-            raise SyntaxError(
-                f"Syntax error at line {token.lineno}: "
-                f"unexpected token '{token.value}' (type: {token.type})"
-            )
+            print(f"Syntax error at line {token.lineno}, token={token.type}")
         else:
-            raise SyntaxError("Syntax error: unexpected end of input")
+            print("Syntax error: unexpected end of input")
         
 def _build_lines(first, other, values):
     try:

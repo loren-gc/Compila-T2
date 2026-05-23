@@ -275,6 +275,8 @@ def parse_tokens(tokens):
     parser = zigParser()
     parser._had_error = False
     tree = parser.parse(tokens)
-    if parser._had_error:
+    if tree is None:
+        return None
+    if parser._had_error and tree[1] == []:
         return None
     return tree

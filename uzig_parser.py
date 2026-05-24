@@ -203,6 +203,10 @@ class zigParser(Parser):
     @_('SEMI')
     def stmt(self, p):
         return ('expression', None)
+    
+    @_('KEYWORD_const IDENTIFIER COLON type SEMI')
+    def stmt(self, p):
+        return ('const: ' + p.IDENTIFIER, 'type: ' + p.type, None)
 
     def error(self, token):
         self._had_error = True

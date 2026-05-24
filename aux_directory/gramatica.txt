@@ -1,0 +1,65 @@
+<program> ::= <statement_list> EOF
+
+<statement_list> ::= { <statement> }+
+
+<statement> ::= <assignment_statement>
+              | <variable_definition>
+              | <const_definition>
+              | <if_statement>
+              | <while_statement>
+              | <break_statement>
+              | <continue_statement>
+              | <expression_statement>
+
+<assignment_statement> ::= <location> "=" <expression> ";"
+
+<variable_definition> ::= "var" <identifier> ":" <type> { "=" <expression> }? ";"
+                        | "var" <identifier> { ":" <type> }? "=" <expression> ";"
+
+<const_definition> ::= "const" <identifier> { ":" <type> }? "=" <expression> ";"
+
+<if_statement> ::= "if" "(" <expression> ")" <block> { "else" ( <block> | <if_statement> ) }?
+
+<while_statement> ::= "while" "(" <expression> ")" <block>
+
+<break_statement> ::= "break" ";"
+
+<continue_statement> ::= "continue" ";"
+
+<expression_statement> ::= { <expression> }? ";"
+
+<block> ::= "{" { <statement_list> }? "}"
+
+<expression> ::= <expression> "+" <expression>
+               | <expression> "-" <expression>
+               | <expression> "*" <expression>
+               | <expression> "/" <expression>
+               | <expression> "%" <expression>
+               | <expression> "<=" <expression>
+               | <expression> "<" <expression>
+               | <expression> ">=" <expression>
+               | <expression> ">" <expression>
+               | <expression> "==" <expression>
+               | <expression> "!=" <expression>
+               | <expression> "and" <expression>
+               | <expression> "or" <expression>
+               | "+" <expression>
+               | "-" <expression>
+               | "! "<expression>
+               | <literal>
+               | <location>
+               | "@print" "(" { <expression_list> }? ")"
+               | "(" <expression> ")"
+
+<literal> ::= <char_literal>
+            | <float>
+            | <integer>
+            | <stringliteral>
+            | "true"
+            | "false"
+
+<expression_list> ::= <expression> { COMMA <expression> }*
+
+<location> ::= <identifier>
+
+<type> ::= <identifier>

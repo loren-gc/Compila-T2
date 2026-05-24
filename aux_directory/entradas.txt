@@ -1,0 +1,808 @@
+1.
+// print values of factorials
+var n : i32 = 1;
+var value : i32 = 1;
+
+while( n < 10 ) 
+{
+	value = value * n;
+	@print( value );
+	n = n + 1;
+}
+
+2.
+// Printing and math expressions involving ints and floats
+@print( 3 + 4 * -5 );
+@print( 3.4 - 5.6 / -7.8 );
+
+// Characters
+@print( 'x' );
+@print( '\n' );
+
+// Constants
+const pi : f64 = 3.14159;
+const tau = 2.0 * pi;
+
+// Variables
+var r : f64;
+var a : f64;
+
+// Assignment and lookup of variables
+r = 2.0;
+a = pi*r*r;
+
+// Relations, booleans, and boolean expressions
+var c : bool = true;
+c = a < 100.0;
+var d = (a > .0) and (a < 10.);
+@print( d );
+
+// Conditionals
+if( a > 0.0 )
+{
+   @print(  a );
+}
+else
+{
+   @print( -a );
+}
+
+// Loops
+var n = 0;
+while( n < 10 )
+{
+    @print( n );
+    n = n + 1;
+}
+
+// Loop control flow (break/continue)
+n = 0;
+while( true )
+{
+    n = n + 1;
+    if( n > 10 )
+	{
+         break;
+	}
+    if( n == 5 )
+	{
+         continue;
+	}
+    @print( n );
+}
+
+3.
+var $ : u8 = '';
+while( S != 'A' )
+    S = S + 1;
+S = 'A-Z';
+@print( S );
+S = 'Hello
+world!';
+@print( S );
+$ = 'char;
+
+4.
+// Exemplo 1:
+
+@print( 2 + 3 * -4 );
+@print( 2.0 - 3.0 / -4.0 );
+@print( -2 + 3 );
+@print( 2 * 3 + -4 );
+
+5.
+// Exemplo 2:
+
+const pi = 3.14159;
+var tau : f64;
+tau = 2.0 * pi;
+@print( tau );
+
+6.
+// Exemplo 3:
+
+var a : i32 = 2;
+var b : i32 = 3;
+if( a < b )
+{
+    @print( a );
+}
+else
+{
+    @print( b );
+}
+
+7.
+// Exemplo 4:
+
+const n = 10;
+var x = 1;
+var fact = 1;
+
+while( x < n )
+{
+    fact = fact * x;
+    @print( fact );
+    x = x + 1;
+}
+
+8.
+// Exemplo 5:
+
+var a : i32 = 1;
+var b : i32 = 1;
+var t : i32;
+var n : i32 = 0;
+const LAST = 20;
+
+while( n < LAST )
+{
+    @print( a );
+    t = a + b;
+    a = b;
+    b = t;
+    n = n + 1;
+}
+
+9.
+var a : i32 = 2;
+// @print( a );
+a=a+1;
+/* var b : i32 = 4;
+var c : i32 = 3 */
+
+var b : i32 = 8;
+var c : i32 = 3;
+var d : i32 = c*(a+b;
+
+/* @print( a );
+a=a+1;
+/* var b : i32 = 4;
+var c : i32 = 3 */
+a=a-1; */
+
+10.
+var a : i32 = 1;
+var b : i32 = 0;
+
+if( a >= 1 and a <= 10 )
+{
+  b = b + 1;
+}
+else
+{
+  b = b - 1;
+// }
+
+11.
+var a : i32 = 5;
+while( a>0 )
+{
+	@print( "Hello world\n" );
+	a=a-1;
+}
+
+a=4;
+while( a>0 )
+{
+	@print( a );
+	a=a-1;
+	var b : i32 = 4;
+	while( b>0 )
+	{
+		@print( a*b );
+		b=b-1;
+	}
+}
+
+12.
+/* Display all prime numbers between 2 and 1000: */
+
+const n1 : i32 = 2;
+const n2 : i32 = 1000;
+
+var i : i32;
+var j : i32;
+var flag : i32;
+
+i = n1;
+while( i < n2 )
+{
+    flag = 1;
+	j = 2;
+	while( j < i/2 )
+	{
+        if( i%j == 0 )
+		{
+            flag = 0;
+            break;
+        }
+		j = j + 1;
+	}
+    if( flag == 1 )
+	{
+        @print( i, " " );
+	}
+	i = i + 1;
+}
+
+13.
+/* 
+ - Test for single line comments
+ - Test for multi-line comments
+ - Test for single line nested comments
+ - Test for multiline nested comments 
+
+The output in lex should remove all the comments including this one 
+*/
+
+
+// Single line comment
+
+/* Multi-line comment
+   Like this */
+
+/* here */ var a : int; /* "var a: int" should be untouched */
+
+// This nested comment // This comment should be removed should be removed
+
+
+
+/* To make things /*  nested multi-line comment */ interesting */
+
+14.
+/*
+ - Test for multi-line comment that doesn't end till EOF
+
+The output in lex should print as error message when the comment does not terminate
+It should remove the comments that terminate
+*/
+
+// This is fine
+/* This as well
+like we know */
+
+/* This is not fine since
+this comment has to end somewhere */
+1
+
+15.
+//
+// Following errors must be detected
+//  - Invalid identifiers: 9y, total$
+//  - Invalid operator: @
+// - Escaped quoted should be part of the string that is identified
+// - Stray characters: `, @, -
+//  
+// The output should display appropriate errors
+//
+
+  // `
+  // @ -
+  var b : i32;
+  var x : i32;
+  var 9y : i32;
+  // var total$ : i32;
+  // total = x @ y;
+  @print( total );
+
+  16.
+  // 
+// Identifying tokens and displaying symbol and constants table
+// 
+// Following tokens must be detected
+//  - Keywords   (int)
+//  - Identifiers (main,total,x,y,printf),
+//  - Constants  (-10, 20, 123456)
+//  - Strings ("Total = %d \n")
+//  - Special symbols and Brackets ( (), {}, ;, ,)
+//  - Operators (+,-,=,*,/,%)
+// 
+// The output should display appropriate tokens with their type and also the symbol and constants table
+//
+
+var x : i32;
+var y : i32;
+var total : i32;
+var diff : i32;
+var myint : i32 = 123456;
+var i : i32 = 0;
+while( i < 10 )
+{
+	var j : i32 = 10;
+	while( j > 0 )
+	{
+		@print( i );
+		j = j - 1;
+	}
+	i = i + 1;
+}
+x = -10, y = 20;
+x=x*3/2;
+total = x + y;
+diff = x - y;
+rem = x % y;
+@print( total );
+
+17.
+// programa trivial
+@print( 1 );
+
+18.
+// 
+// - Test for character 
+// - Test for character that doesn't end till EOF
+//
+// The output in lex should identify the first character correct and display error message that the second one does not terminate
+// 
+var c : u8 = '';
+while( c != 'A' )
+    c = c + 1;
+c = 'A-Z';
+@print( c );
+// c = 'char;
+
+19.
+// 
+// Show Ident and Integers
+// 
+const phoenix_number = 142857;
+@print( phoenix_number, '\n' );
+
+20.
+// 
+// All lexical tokens - not syntactically correct, but that will
+// have to wait until syntax analysis
+// 
+// break	// Break
+// while   // While
+// u8      // Char
+// i32     // Int
+// @print  // Print 
+// -       // Sub
+// if      // If
+// >       // Gtr
+// else    // Else
+// <=      // Leq
+// <		// Lss
+// >=      // Geq
+// {       // Lbrace
+// ==      // Eq
+// }       // Rbrace
+// !=      // Neq
+// (       // Lparen
+// and     // And
+// )       // Rparen
+// or      // Or
+// -       // Uminus 
+// ;       // Semi
+// !       // Not
+// =       // Assign
+// *       // Mul
+// 42      // Integer
+// /       // Div
+// variable_name // Ident
+// +       // Add
+// '\n'    // character literal
+// '\\'    // character literal
+// ' '     // character literal
+;
+
+21.
+var count = 1;
+while( count < 10 )
+{
+    @print( count, '\n' );
+    count = count + 1;
+}
+
+22.
+// 100 Doors
+i = 1;
+while( i * i <= 100 )
+{
+    @print( i * i, '\n' );
+    i = i + 1;
+}
+
+23.
+a = (-1 * ((-1 * (5 * 15)) / 10));
+@print( a, '\n' );
+b = -a;
+@print( b, '\n' );
+@print( -b, '\n' );
+@print( -(1), '\n' );
+
+24.
+@print( ---------------------------------+++5, '\n' );
+@print( ((((((((3 + 2) * ((((((2))))))))))))), '\n' );
+ 
+if( 1 ) { if( 1 ) { if( 1 ) { if( 1 ) { if( 1 ) { @print( 15, '\n' ); } } } } }
+
+25.
+// Compute the gcd of 1071, 1029:  21
+var a : i32 = 1071;
+var b : i32 = 1029;
+
+while( b != 0 )
+{
+    var new_a : i32 = b;
+    b = a % b;
+    a = new_a;
+}
+@print( a );
+
+26.
+// 12 factorial is 479001600
+var n : i32 = 12;
+var result : i32 = 1;
+var i : i32 = 1;
+while( i <= n )
+{
+	result = result * i;
+	i = i + 1;
+}
+@print( result );
+
+27.
+// fibonacci of 44 is 701408733
+var n : i32 = 44;
+var i : i32 = 1;
+var a : i32 = 0;
+var b : i32 = 1;
+while( i < n )
+{
+	var w : i32 = a + b;
+	a = b;
+	b = w;
+	i = i + 1;
+}
+@print( w, '\n' );
+
+28.
+// 
+// Simple prime number generator
+// 
+var count : i32 = 1;
+var n : i32 = 1;
+const limit : i32 = 100;
+while( n < limit )
+{
+    var k : i32 = 3;
+    var p : i32 = 1;
+    n = n+2;
+    while( (k*k<=n) and (p) )
+	{
+        p = n/k*k!=n;
+        k = k+2;
+    }
+    if( p )
+	{
+        @print( n, " is prime\n" );
+        count = count + 1;
+    }
+}
+@print( count, '\n' );
+
+29.
+// 
+// This is an integer ascii Mandelbrot generator
+// 
+var left_edge : i32 = -420;
+var right_edge : i32 = 300;
+var top_edge : i32 = 300;
+var bottom_edge : i32 = -300;
+var x_step : i32 = 7;
+var y_step : i32 = 15;
+
+const max_iter : i32 = 200;
+
+var y0 : i32 = top_edge;
+while( y0 > bottom_edge )
+{
+    var x0 : i32 = left_edge;
+    while( x0 < right_edge )
+	{
+        var y : i32 = 0;
+        var x : i32 = 0;
+        var the_char : u8 = ' ';
+        var i : i32 = 0;
+        while( i < max_iter )
+		{
+            var x_x : i32 = (x * x) / 200;
+            var y_y : i32 = (y * y) / 200;
+            if( x_x + y_y > 800 )
+			{
+                the_char = '0' + i;
+                if( i > 9 )
+                    the_char = '@';
+                i = max_iter;
+            }
+            y = x * y / 100 + y0;
+            x = x_x - y_y + x0;
+            i = i + 1;
+        }
+        @print( the_char );
+        x0 = x0 + x_step;
+    }
+    @print( '\n' );
+    y0 = y0 - y_step;
+}
+
+30.
+// Test of break/continue
+
+var n : i32 = 0;
+while( true )
+{
+      n = n + 1;
+      if( n == 5 )
+	  {
+         continue;
+	  }
+      @print( n );
+      if( n > 10 )
+	  {
+          break;
+	  }
+}
+@print( -1 );
+
+31.
+// chartest.wb
+
+const newline = '\n';
+@print( "hello", newline, "world", newline );
+
+32.
+// Testing of a basic conditional
+
+var x : i32 = -3;
+
+if( x > 0 )
+{
+   @print(  x );
+}
+else
+{
+   @print( -x );
+}
+
+33.
+// floattest.wb
+// 
+// Test all of the basic expressions on floats
+// 
+
+// Floating point operations
+
+const fa = 1.0 ;       // Float constant
+var fb : f64 = 2.0;    // Float variable declaration (with value)
+var fc : f64;          // Variable declaration (no value)
+
+fc = fa + fb + 3.0;     // Assignment to an float
+
+@print( fc );           // Float printing.  Outputs 6.0
+@print( fa + fb );      // Outputs 3.0
+@print( fa - fb );      // Outputs -1.0
+@print( fb * fc );      // Outputs 12.0
+@print( fc / fb );      // Outputs 3.0
+@print( +fa );          // Outputs 1.0
+@print( -fa );          // Outputs -1.0
+@print( fa + fb * fc ); // Outputs 13.0
+
+34.
+// inttest.wb
+
+// Test all of the basic expressions on integers.
+// 
+
+// Integer operations
+
+const a = 1;         // Integer constant
+var b : i32 = 2;     // Integer variable declaration (with value)
+var c : i32;         // Integer declaration (no value)
+
+c = a + b + 3;       // Assignment to an integer
+@print( c );         // Integer printing.  Outputs 6
+
+@print( a + b );     // Outputs 3
+@print( a - b );     // Outputs -1
+@print( b * c );     // Outputs 12
+@print( c / b );     // Outputs 3
+@print( +a );        // Outputs 1
+@print( -a );        // Outputs -1
+@print( -a + b );    // Outputs 1
+
+// Test of associativity
+@print( a + b * c ); // Outputs 13
+
+35.
+// mandel_loop.wb
+
+const xmin = -2.;
+const xmax =  1.;
+const ymin = -1.5;
+const ymax =  1.5;
+const width = 80.;
+const height = 40.;
+const threshhold = 1000;
+
+var dx : f64 = (xmax - xmin)/width;
+var dy : f64 = (ymax - ymin)/height;
+var y : f64 = ymax;
+var x : f64;
+var _x : f64;
+var _y : f64;
+var xtemp : f64;
+var n : i32;
+var in_mandel : bool;
+while( y >= ymin )
+{
+     x = xmin;
+     while( x < xmax )
+	 {
+         _x = .0;
+         _y = .0;
+         n = threshhold;
+         in_mandel = true;
+         while( n > 0 )
+		 {
+             xtemp = _x*_x - _y*_y + x;
+             _y = 2.0*_x*_y + y;
+             _x = xtemp;
+             n = n - 1;
+             if( (_x*_x + _y*_y) > 4.0 )
+			 {
+                 in_mandel = false;
+                 n = 0;
+             }
+         }               
+         if( in_mandel )
+		 {
+             @print( '*' );
+         }
+         else
+         {
+             @print( '.' );
+         }
+         x = x + dx;
+     }
+     @print( '\n' );
+     y = y - dy;
+}
+
+36.
+// testrel_char.wb
+//
+// Some tests of relations involving characters with no errors.
+// This code should check and run.
+//
+
+var a : u8 = 'a';
+var b : u8 = 'b';
+
+@print( a <  b );
+@print( a <= b );
+@print( a >  b );
+@print( a >= b );
+@print( a == b );
+@print( a != b );
+
+37.
+// testrel_float.wb
+//
+// Some tests of relations involving floating point numbers with no errors.  
+// This code should check and run.
+//
+
+var a : f64 = 2.0;
+var b : f64 = 3.0;
+
+@print( a <  b );
+@print( a <= b );
+@print( a >  b );
+@print( a >= b );
+@print( a == b );
+@print( a != b );
+@print( a < b and a > b );
+@print( a < b or a > b );
+@print( !(a<b) );
+
+@print( true );
+@print( false );
+
+@print( !(a<b) or false );
+
+@print( 2.0 < 3.0 or 3.0 > 4.0 or 10.0 < 1.0 );
+
+38.
+// testrel_int.wb
+//
+// Some tests of integer relations with no errors.  This code should check and run.
+//
+
+var a : i32 = 2;
+var b : i32 = 3;
+
+@print( a <  b );
+@print( a <= b );
+@print( a >  b );
+@print( a >= b );
+@print( a == b );
+@print( a != b );
+@print( a < b and a > b );
+@print( a < b or a > b );
+@print( !(a<b) );
+
+@print( true );
+@print( false );
+
+@print( !(a<b) or false );
+
+@print( 2 < 3 or 3 > 4 or 10 < 1 );
+
+var c : bool = true;
+var d : bool = false;
+
+@print( c and d );
+@print( c or d );
+@print( !c );
+
+39.
+// Short-circuit evaluation
+// Note: Implementing this is likely to be tricky/messy. 
+// Come back to it later if you have other things to fix.
+
+var x = 1;
+var y = 0;
+
+@print( true or (x/y == 0) );
+@print( false and (x/y == 0) );
+
+40.
+// error_script.wb
+//
+// Examples of semantic errors that could appear in WabbitScript code
+
+@print( 2 + 2.5 );    // Type error (int + float)
+@print( -"c" );       // Type error (- char)
+
+var x;                // Must have a type
+var x : i32 = 2.5;    // Type mismatch in initialization
+var y : i32;
+var y : i32;          // Duplicate definition of y
+
+var z : i32;
+z = 4.5;              // Bad assignment (type error)
+w = 4.5;              // Bad assignment (undefined name)
+
+const pi = 3.14159;
+pi = 2.71828;         // Can't assign to const
+
+// Bad condition. Test isn't a boolean
+if( 2 )
+{
+
+} 
+else 
+{
+
+}
+
+// Bad loop. Test isn't a boolean
+
+while( 2.5 )
+{
+
+}
+
+// Use of type names in the wrong place
+@print( i32 );        // Can't load from int (not a variable)
+int = 2;              // Can't assign to int (not a variable)
+
+var i32 : d;          // Type name/variable name swapped. "d" is not a type.
+
+// Break/continue used outside of a loop
+break;
+continue;

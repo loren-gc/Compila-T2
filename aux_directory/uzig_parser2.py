@@ -6,19 +6,29 @@ from sly import Parser
 class zigParser(Parser):
 
     tokens = zigLexer.tokens
-    precedence = ('left', 'KEYWORD_or'), ('left', 'KEYWORD_and'), ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'), ('left', 'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'), ('left', 'PLUS', 'MINUS'), ('left', 'ASTERISK', 'SLASH', 'PERCENT'), ('right', 'UMINUS', 'EXCLAMATIONMARK'), ('nonassoc', 'IFX'), ('nonassoc', 'KEYWORD_else')
+    precedence = (
+        ('left', 'KEYWORD_or'),
+        ('left', 'KEYWORD_and'),
+        ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'),
+        ('left', 'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'ASTERISK', 'SLASH', 'PERCENT'),
+        ('right', 'UMINUS', 'EXCLAMATIONMARK'),
+        ('nonassoc', 'IFX'),
+        ('nonassoc', 'KEYWORD_else')
+    )
 
     @_('stmtlist')
     def program(self, p):
         return ('program', p.stmtlist)
 
+    @_('stmt')
+    def stmtlist(self, p):
+        return [p.stmt]
+
     @_('stmtlist stmt')
     def stmtlist(self, p):
         return p.stmtlist + [p.stmt]
-
-    @_('')
-    def stmtlist(self, p):
-        return []
 
     @_('KEYWORD_var IDENTIFIER COLON type EQUAL expr SEMI')
     def stmt(self, p):
@@ -68,13 +78,21 @@ class zigParser(Parser):
     def stmt(self, p):
         return ('expression', p.expr)
 
+    @_('SEMI')
+    def stmt(self, p):
+        return ('expression', None)
+
     @_('block')
     def stmt(self, p):
         return p.block
 
     @_('LBRACE stmtlist RBRACE')
     def block(self, p):
-        return ('block', p.stmtlist if p.stmtlist else None)
+        return ('block', p.stmtlist)
+
+    @_('LBRACE RBRACE')
+    def block(self, p):
+        return ('block', None)
 
     @_('IDENTIFIER')
     def type(self, p):
@@ -154,7 +172,7 @@ class zigParser(Parser):
 
     @_('FLOAT')
     def expr(self, p):
-        return 'literal: f64, ' + p.FLOAT
+        return 'literal: f64, ' + str(p.FLOAT)
 
     @_('KEYWORD_true')
     def expr(self, p):
@@ -172,17 +190,9 @@ class zigParser(Parser):
     def expr(self, p):
         return 'literal: []const u8, ' + str(p.STRINGLITERAL)
 
-    @_('IDENTIFIER LPAREN arglist RPAREN')
+    @_('BUILTINIDENTIFIER LPAREN expression_list RPAREN')
     def expr(self, p):
-        return ('call: ' + p.IDENTIFIER, p.arglist)
-
-    @_('IDENTIFIER LPAREN RPAREN')
-    def expr(self, p):
-        return ('call: ' + p.IDENTIFIER, [])
-
-    @_('BUILTINIDENTIFIER LPAREN arglist RPAREN')
-    def expr(self, p):
-        return ('builtin: ' + p.BUILTINIDENTIFIER, p.arglist)
+        return ('builtin: ' + p.BUILTINIDENTIFIER, p.expression_list)
 
     @_('BUILTINIDENTIFIER LPAREN RPAREN')
     def expr(self, p):
@@ -192,31 +202,21 @@ class zigParser(Parser):
     def expr(self, p):
         return 'location: ' + p.IDENTIFIER
 
-    @_('arglist COMMA expr')
-    def arglist(self, p):
-        return p.arglist + [p.expr]
+    @_('expression_list COMMA expr')
+    def expression_list(self, p):
+        return p.expression_list + [p.expr]
 
     @_('expr')
-    def arglist(self, p):
+    def expression_list(self, p):
         return [p.expr]
-
-    @_('SEMI')
-    def stmt(self, p):
-        return ('expression', None)
-    
-    """
-    @_('KEYWORD_const IDENTIFIER COLON type SEMI')
-    def stmt(self, p):
-        return ('const: ' + p.IDENTIFIER, 'type: ' + p.type, None)
-    """
-        
+      
     def error(self, token):
         self._had_error = True
         if token:
             print(f"Syntax error at line {token.lineno}, token={token.type}")
         else:
             print("Parse error in input. EOF")
-        
+
 def _build_lines(first, other, values):
     try:
         yield first + next(values)

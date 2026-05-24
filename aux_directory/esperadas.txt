@@ -1,0 +1,1522 @@
+1.
+┬─ program
+└─┬─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: value
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  └─┬─ while
+    ├─┬─ binary_op: <
+    │ ├─ location: n
+    │ └─ literal: i32, 10
+    └─┬─ block
+      └─┬─┬─ assignment
+        │ ├─ location: value
+        │ └─┬─ binary_op: *
+        │   ├─ location: value
+        │   └─ location: n
+        ├─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─── location: value
+        └─┬─ assignment
+          ├─ location: n
+          └─┬─ binary_op: +
+            ├─ location: n
+            └─ literal: i32, 1
+
+2.
+┬─ program
+└─┬─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─ literal: i32, 3
+  │       └─┬─ binary_op: *
+  │         ├─ literal: i32, 4
+  │         └─┬─ unary_op: -
+  │           └─ literal: i32, 5
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: -
+  │       ├─ literal: f64, 3.4
+  │       └─┬─ binary_op: /
+  │         ├─ literal: f64, 5.6
+  │         └─┬─ unary_op: -
+  │           └─ literal: f64, 7.8
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: u8, 'x'
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: u8, '\n'
+  ├─┬─ const: pi
+  │ ├─ type: f64
+  │ └─ literal: f64, 3.14159
+  ├─┬─ const: tau
+  │ ├─ None
+  │ └─┬─ binary_op: *
+  │   ├─ literal: f64, 2.0
+  │   └─ location: pi
+  ├─┬─ variable: r
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ variable: a
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: r
+  │ └─ literal: f64, 2.0
+  ├─┬─ assignment
+  │ ├─ location: a
+  │ └─┬─ binary_op: *
+  │   ├─┬─ binary_op: *
+  │   │ ├─ location: pi
+  │   │ └─ location: r
+  │   └─ location: r
+  ├─┬─ variable: c
+  │ ├─ type: bool
+  │ └─ literal: bool, true
+  ├─┬─ assignment
+  │ ├─ location: c
+  │ └─┬─ binary_op: <
+  │   ├─ location: a
+  │   └─ literal: f64, 100.0
+  ├─┬─ variable: d
+  │ ├─ None
+  │ └─┬─ binary_op: and
+  │   ├─┬─ binary_op: >
+  │   │ ├─ location: a
+  │   │ └─ literal: f64, .0
+  │   └─┬─ binary_op: <
+  │     ├─ location: a
+  │     └─ literal: f64, 10.
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── location: d
+  ├─┬─ if
+  │ ├─┬─ binary_op: >
+  │ │ ├─ location: a
+  │ │ └─ literal: f64, 0.0
+  │ ├─┬─ block
+  │ │ └───┬─ expression
+  │ │     └─┬─ builtin: @print
+  │ │       └─── location: a
+  │ └─┬─ block
+  │   └───┬─ expression
+  │       └─┬─ builtin: @print
+  │         └───┬─ unary_op: -
+  │             └─ location: a
+  ├─┬─ variable: n
+  │ ├─ None
+  │ └─ literal: i32, 0
+  ├─┬─ while
+  │ ├─┬─ binary_op: <
+  │ │ ├─ location: n
+  │ │ └─ literal: i32, 10
+  │ └─┬─ block
+  │   └─┬─┬─ expression
+  │     │ └─┬─ builtin: @print
+  │     │   └─── location: n
+  │     └─┬─ assignment
+  │       ├─ location: n
+  │       └─┬─ binary_op: +
+  │         ├─ location: n
+  │         └─ literal: i32, 1
+  ├─┬─ assignment
+  │ ├─ location: n
+  │ └─ literal: i32, 0
+  └─┬─ while
+    ├─ literal: bool, true
+    └─┬─ block
+      └─┬─┬─ assignment
+        │ ├─ location: n
+        │ └─┬─ binary_op: +
+        │   ├─ location: n
+        │   └─ literal: i32, 1
+        ├─┬─ if
+        │ ├─┬─ binary_op: >
+        │ │ ├─ location: n
+        │ │ └─ literal: i32, 10
+        │ ├─┬─ block
+        │ │ └─── break
+        │ └─ None
+        ├─┬─ if
+        │ ├─┬─ binary_op: ==
+        │ │ ├─ location: n
+        │ │ └─ literal: i32, 5
+        │ ├─┬─ block
+        │ │ └─── continue
+        │ └─ None
+        └─┬─ expression
+          └─┬─ builtin: @print
+            └─── location: n
+
+3.
+1: Illegal character '$'
+Syntax error at line 1, token=COLON
+Syntax error at line 3, token=IDENTIFIER
+6: Unterminated character constant
+Syntax error at line 7, token=EXCLAMATIONMARK
+7: Unterminated character constant
+9: Illegal character '$'
+Syntax error at line 9, token=EQUAL
+9: Unterminated character constant
+
+4.
+┬─ program
+└─┬─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─ literal: i32, 2
+  │       └─┬─ binary_op: *
+  │         ├─ literal: i32, 3
+  │         └─┬─ unary_op: -
+  │           └─ literal: i32, 4
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: -
+  │       ├─ literal: f64, 2.0
+  │       └─┬─ binary_op: /
+  │         ├─ literal: f64, 3.0
+  │         └─┬─ unary_op: -
+  │           └─ literal: f64, 4.0
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─┬─ unary_op: -
+  │       │ └─ literal: i32, 2
+  │       └─ literal: i32, 3
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: +
+          ├─┬─ binary_op: *
+          │ ├─ literal: i32, 2
+          │ └─ literal: i32, 3
+          └─┬─ unary_op: -
+            └─ literal: i32, 4
+
+5.
+┬─ program
+└─┬─┬─ const: pi
+  │ ├─ None
+  │ └─ literal: f64, 3.14159
+  ├─┬─ variable: tau
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: tau
+  │ └─┬─ binary_op: *
+  │   ├─ literal: f64, 2.0
+  │   └─ location: pi
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: tau
+
+6.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 2
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 3
+  └─┬─ if
+    ├─┬─ binary_op: <
+    │ ├─ location: a
+    │ └─ location: b
+    ├─┬─ block
+    │ └───┬─ expression
+    │     └─┬─ builtin: @print
+    │       └─── location: a
+    └─┬─ block
+      └───┬─ expression
+          └─┬─ builtin: @print
+            └─── location: b
+
+7.
+┬─ program
+└─┬─┬─ const: n
+  │ ├─ None
+  │ └─ literal: i32, 10
+  ├─┬─ variable: x
+  │ ├─ None
+  │ └─ literal: i32, 1
+  ├─┬─ variable: fact
+  │ ├─ None
+  │ └─ literal: i32, 1
+  └─┬─ while
+    ├─┬─ binary_op: <
+    │ ├─ location: x
+    │ └─ location: n
+    └─┬─ block
+      └─┬─┬─ assignment
+        │ ├─ location: fact
+        │ └─┬─ binary_op: *
+        │   ├─ location: fact
+        │   └─ location: x
+        ├─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─── location: fact
+        └─┬─ assignment
+          ├─ location: x
+          └─┬─ binary_op: +
+            ├─ location: x
+            └─ literal: i32, 1
+
+8.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: t
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 0
+  ├─┬─ const: LAST
+  │ ├─ None
+  │ └─ literal: i32, 20
+  └─┬─ while
+    ├─┬─ binary_op: <
+    │ ├─ location: n
+    │ └─ location: LAST
+    └─┬─ block
+      └─┬─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─── location: a
+        ├─┬─ assignment
+        │ ├─ location: t
+        │ └─┬─ binary_op: +
+        │   ├─ location: a
+        │   └─ location: b
+        ├─┬─ assignment
+        │ ├─ location: a
+        │ └─ location: b
+        ├─┬─ assignment
+        │ ├─ location: b
+        │ └─ location: t
+        └─┬─ assignment
+          ├─ location: n
+          └─┬─ binary_op: +
+            ├─ location: n
+            └─ literal: i32, 1
+
+9.
+Syntax error at line 4, token=SLASH
+Syntax error at line 5, token=SLASH
+Syntax error at line 9, token=SEMI
+Syntax error at line 13, token=SLASH
+Syntax error at line 14, token=SLASH
+Syntax error at line 15, token=ASTERISK
+
+10.
+Parse error in input. EOF
+
+11.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 5
+  ├─┬─ while
+  │ ├─┬─ binary_op: >
+  │ │ ├─ location: a
+  │ │ └─ literal: i32, 0
+  │ └─┬─ block
+  │   └─┬─┬─ expression
+  │     │ └─┬─ builtin: @print
+  │     │   └─── literal: []const u8, "Hello world\n"
+  │     └─┬─ assignment
+  │       ├─ location: a
+  │       └─┬─ binary_op: -
+  │         ├─ location: a
+  │         └─ literal: i32, 1
+  ├─┬─ assignment
+  │ ├─ location: a
+  │ └─ literal: i32, 4
+  └─┬─ while
+    ├─┬─ binary_op: >
+    │ ├─ location: a
+    │ └─ literal: i32, 0
+    └─┬─ block
+      └─┬─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─── location: a
+        ├─┬─ assignment
+        │ ├─ location: a
+        │ └─┬─ binary_op: -
+        │   ├─ location: a
+        │   └─ literal: i32, 1
+        ├─┬─ variable: b
+        │ ├─ type: i32
+        │ └─ literal: i32, 4
+        └─┬─ while
+          ├─┬─ binary_op: >
+          │ ├─ location: b
+          │ └─ literal: i32, 0
+          └─┬─ block
+            └─┬─┬─ expression
+              │ └─┬─ builtin: @print
+              │   └───┬─ binary_op: *
+              │       ├─ location: a
+              │       └─ location: b
+              └─┬─ assignment
+                ├─ location: b
+                └─┬─ binary_op: -
+                  ├─ location: b
+                  └─ literal: i32, 1
+
+12.
+Syntax error at line 1, token=SLASH
+┬─ program
+└─┬─┬─ const: n1
+  │ ├─ type: i32
+  │ └─ literal: i32, 2
+  ├─┬─ const: n2
+  │ ├─ type: i32
+  │ └─ literal: i32, 1000
+  ├─┬─ variable: i
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: j
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: flag
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: i
+  │ └─ location: n1
+  └─┬─ while
+    ├─┬─ binary_op: <
+    │ ├─ location: i
+    │ └─ location: n2
+    └─┬─ block
+      └─┬─┬─ assignment
+        │ ├─ location: flag
+        │ └─ literal: i32, 1
+        ├─┬─ assignment
+        │ ├─ location: j
+        │ └─ literal: i32, 2
+        ├─┬─ while
+        │ ├─┬─ binary_op: <
+        │ │ ├─ location: j
+        │ │ └─┬─ binary_op: /
+        │ │   ├─ location: i
+        │ │   └─ literal: i32, 2
+        │ └─┬─ block
+        │   └─┬─┬─ if
+        │     │ ├─┬─ binary_op: ==
+        │     │ │ ├─┬─ binary_op: %
+        │     │ │ │ ├─ location: i
+        │     │ │ │ └─ location: j
+        │     │ │ └─ literal: i32, 0
+        │     │ ├─┬─ block
+        │     │ │ └─┬─┬─ assignment
+        │     │ │   │ ├─ location: flag
+        │     │ │   │ └─ literal: i32, 0
+        │     │ │   └─ break
+        │     │ └─ None
+        │     └─┬─ assignment
+        │       ├─ location: j
+        │       └─┬─ binary_op: +
+        │         ├─ location: j
+        │         └─ literal: i32, 1
+        ├─┬─ if
+        │ ├─┬─ binary_op: ==
+        │ │ ├─ location: flag
+        │ │ └─ literal: i32, 1
+        │ ├─┬─ block
+        │ │ └───┬─ expression
+        │ │     └─┬─ builtin: @print
+        │ │       └─┬─ location: i
+        │ │         └─ literal: []const u8, " "
+        │ └─ None
+        └─┬─ assignment
+          ├─ location: i
+          └─┬─ binary_op: +
+            ├─ location: i
+            └─ literal: i32, 1
+
+13.
+Syntax error at line 1, token=SLASH
+Syntax error at line 3, token=IDENTIFIER
+Syntax error at line 3, token=IDENTIFIER
+Syntax error at line 13, token=IDENTIFIER
+Syntax error at line 16, token=SLASH
+
+14.
+Syntax error at line 1, token=SLASH
+Syntax error at line 2, token=IDENTIFIER
+2: Unterminated character constant
+
+15.
+Syntax error at line 15, token=INTEGER
+┬─ program
+└─┬─┬─ expression
+  │ └─ location: i32
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: total
+
+16.
+Syntax error at line 31, token=COMMA
+┬─ program
+└─┬─┬─ assignment
+  │ ├─ location: y
+  │ └─ literal: i32, 20
+  ├─┬─ assignment
+  │ ├─ location: x
+  │ └─┬─ binary_op: /
+  │   ├─┬─ binary_op: *
+  │   │ ├─ location: x
+  │   │ └─ literal: i32, 3
+  │   └─ literal: i32, 2
+  ├─┬─ assignment
+  │ ├─ location: total
+  │ └─┬─ binary_op: +
+  │   ├─ location: x
+  │   └─ location: y
+  ├─┬─ assignment
+  │ ├─ location: diff
+  │ └─┬─ binary_op: -
+  │   ├─ location: x
+  │   └─ location: y
+  ├─┬─ assignment
+  │ ├─ location: rem
+  │ └─┬─ binary_op: %
+  │   ├─ location: x
+  │   └─ location: y
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: total
+
+17.
+┬─ program
+└───┬─ expression
+    └─┬─ builtin: @print
+      └─── literal: i32, 1
+
+18.
+Syntax error at line 9, token=IDENTIFIER
+┬─ program
+└─┬─┬─ expression
+  │ └─┬─ binary_op: +
+  │   ├─ location: c
+  │   └─ literal: i32, 1
+  ├─┬─ assignment
+  │ ├─ location: c
+  │ └─ literal: u8, 'A-Z'
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: c
+
+19.
+┬─ program
+└─┬─┬─ const: phoenix_number
+  │ ├─ None
+  │ └─ literal: i32, 142857
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─┬─ location: phoenix_number
+        └─ literal: u8, '\n'
+
+20.
+┬─ program
+└───┬─ expression
+    └─ None
+
+21.
+┬─ program
+└─┬─┬─ variable: count
+  │ ├─ None
+  │ └─ literal: i32, 1
+  └─┬─ while
+    ├─┬─ binary_op: <
+    │ ├─ location: count
+    │ └─ literal: i32, 10
+    └─┬─ block
+      └─┬─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─┬─ location: count
+        │     └─ literal: u8, '\n'
+        └─┬─ assignment
+          ├─ location: count
+          └─┬─ binary_op: +
+            ├─ location: count
+            └─ literal: i32, 1
+
+22.
+┬─ program
+└─┬─┬─ assignment
+  │ ├─ location: i
+  │ └─ literal: i32, 1
+  └─┬─ while
+    ├─┬─ binary_op: <=
+    │ ├─┬─ binary_op: *
+    │ │ ├─ location: i
+    │ │ └─ location: i
+    │ └─ literal: i32, 100
+    └─┬─ block
+      └─┬─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─┬─┬─ binary_op: *
+        │     │ ├─ location: i
+        │     │ └─ location: i
+        │     └─ literal: u8, '\n'
+        └─┬─ assignment
+          ├─ location: i
+          └─┬─ binary_op: +
+            ├─ location: i
+            └─ literal: i32, 1
+
+23.
+┬─ program
+└─┬─┬─ assignment
+  │ ├─ location: a
+  │ └─┬─ binary_op: *
+  │   ├─┬─ unary_op: -
+  │   │ └─ literal: i32, 1
+  │   └─┬─ binary_op: /
+  │     ├─┬─ binary_op: *
+  │     │ ├─┬─ unary_op: -
+  │     │ │ └─ literal: i32, 1
+  │     │ └─┬─ binary_op: *
+  │     │   ├─ literal: i32, 5
+  │     │   └─ literal: i32, 15
+  │     └─ literal: i32, 10
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─┬─ location: a
+  │     └─ literal: u8, '\n'
+  ├─┬─ assignment
+  │ ├─ location: b
+  │ └─┬─ unary_op: -
+  │   └─ location: a
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─┬─ location: b
+  │     └─ literal: u8, '\n'
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─┬─┬─ unary_op: -
+  │     │ └─ location: b
+  │     └─ literal: u8, '\n'
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─┬─┬─ unary_op: -
+        │ └─ literal: i32, 1
+        └─ literal: u8, '\n'
+
+24.
+┬─ program
+└─┬─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─┬─┬─ unary_op: -
+  │     │ └─┬─ unary_op: -
+  │     │   └─┬─ unary_op: -
+  │     │     └─┬─ unary_op: -
+  │     │       └─┬─ unary_op: -
+  │     │         └─┬─ unary_op: -
+  │     │           └─┬─ unary_op: -
+  │     │             └─┬─ unary_op: -
+  │     │               └─┬─ unary_op: -
+  │     │                 └─┬─ unary_op: -
+  │     │                   └─┬─ unary_op: -
+  │     │                     └─┬─ unary_op: -
+  │     │                       └─┬─ unary_op: -
+  │     │                         └─┬─ unary_op: -
+  │     │                           └─┬─ unary_op: -
+  │     │                             └─┬─ unary_op: -
+  │     │                               └─┬─ unary_op: -
+  │     │                                 └─┬─ unary_op: -
+  │     │                                   └─┬─ unary_op: -
+  │     │                                     └─┬─ unary_op: -
+  │     │                                       └─┬─ unary_op: -
+  │     │                                         └─┬─ unary_op: -
+  │     │                                           └─┬─ unary_op: -
+  │     │                                             └─┬─ unary_op: -
+  │     │                                               └─┬─ unary_op: -
+  │     │                                                 └─┬─ unary_op: -
+  │     │                                                   └─┬─ unary_op: -
+  │     │                                                     └─┬─ unary_op: -
+  │     │                                                       └─┬─ unary_op: -
+  │     │                                                         └─┬─ unary_op: -
+  │     │                                                           └─┬─ unary_op: -
+  │     │                                                             └─┬─ unary_op: -
+  │     │                                                               └─┬─ unary_op: -
+  │     │                                                                 └─┬─ unary_op: +
+  │     │                                                                   └─┬─ unary_op: +
+  │     │                                                                     └─┬─ unary_op: +
+  │     │                                                                       └─ literal: i32, 5
+  │     └─ literal: u8, '\n'
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─┬─┬─ binary_op: *
+  │     │ ├─┬─ binary_op: +
+  │     │ │ ├─ literal: i32, 3
+  │     │ │ └─ literal: i32, 2
+  │     │ └─ literal: i32, 2
+  │     └─ literal: u8, '\n'
+  └─┬─ if
+    ├─ literal: i32, 1
+    ├─┬─ block
+    │ └───┬─ if
+    │     ├─ literal: i32, 1
+    │     ├─┬─ block
+    │     │ └───┬─ if
+    │     │     ├─ literal: i32, 1
+    │     │     ├─┬─ block
+    │     │     │ └───┬─ if
+    │     │     │     ├─ literal: i32, 1
+    │     │     │     ├─┬─ block
+    │     │     │     │ └───┬─ if
+    │     │     │     │     ├─ literal: i32, 1
+    │     │     │     │     ├─┬─ block
+    │     │     │     │     │ └───┬─ expression
+    │     │     │     │     │     └─┬─ builtin: @print
+    │     │     │     │     │       └─┬─ literal: i32, 15
+    │     │     │     │     │         └─ literal: u8, '\n'
+    │     │     │     │     └─ None
+    │     │     │     └─ None
+    │     │     └─ None
+    │     └─ None
+    └─ None
+
+25.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 1071
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 1029
+  ├─┬─ while
+  │ ├─┬─ binary_op: !=
+  │ │ ├─ location: b
+  │ │ └─ literal: i32, 0
+  │ └─┬─ block
+  │   └─┬─┬─ variable: new_a
+  │     │ ├─ type: i32
+  │     │ └─ location: b
+  │     ├─┬─ assignment
+  │     │ ├─ location: b
+  │     │ └─┬─ binary_op: %
+  │     │   ├─ location: a
+  │     │   └─ location: b
+  │     └─┬─ assignment
+  │       ├─ location: a
+  │       └─ location: new_a
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: a
+
+26.
+┬─ program
+└─┬─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 12
+  ├─┬─ variable: result
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: i
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ while
+  │ ├─┬─ binary_op: <=
+  │ │ ├─ location: i
+  │ │ └─ location: n
+  │ └─┬─ block
+  │   └─┬─┬─ assignment
+  │     │ ├─ location: result
+  │     │ └─┬─ binary_op: *
+  │     │   ├─ location: result
+  │     │   └─ location: i
+  │     └─┬─ assignment
+  │       ├─ location: i
+  │       └─┬─ binary_op: +
+  │         ├─ location: i
+  │         └─ literal: i32, 1
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─── location: result
+
+27.
+┬─ program
+└─┬─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 44
+  ├─┬─ variable: i
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 0
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ while
+  │ ├─┬─ binary_op: <
+  │ │ ├─ location: i
+  │ │ └─ location: n
+  │ └─┬─ block
+  │   └─┬─┬─ variable: w
+  │     │ ├─ type: i32
+  │     │ └─┬─ binary_op: +
+  │     │   ├─ location: a
+  │     │   └─ location: b
+  │     ├─┬─ assignment
+  │     │ ├─ location: a
+  │     │ └─ location: b
+  │     ├─┬─ assignment
+  │     │ ├─ location: b
+  │     │ └─ location: w
+  │     └─┬─ assignment
+  │       ├─ location: i
+  │       └─┬─ binary_op: +
+  │         ├─ location: i
+  │         └─ literal: i32, 1
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─┬─ location: w
+        └─ literal: u8, '\n'
+
+28.
+┬─ program
+└─┬─┬─ variable: count
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 1
+  ├─┬─ const: limit
+  │ ├─ type: i32
+  │ └─ literal: i32, 100
+  ├─┬─ while
+  │ ├─┬─ binary_op: <
+  │ │ ├─ location: n
+  │ │ └─ location: limit
+  │ └─┬─ block
+  │   └─┬─┬─ variable: k
+  │     │ ├─ type: i32
+  │     │ └─ literal: i32, 3
+  │     ├─┬─ variable: p
+  │     │ ├─ type: i32
+  │     │ └─ literal: i32, 1
+  │     ├─┬─ assignment
+  │     │ ├─ location: n
+  │     │ └─┬─ binary_op: +
+  │     │   ├─ location: n
+  │     │   └─ literal: i32, 2
+  │     ├─┬─ while
+  │     │ ├─┬─ binary_op: and
+  │     │ │ ├─┬─ binary_op: <=
+  │     │ │ │ ├─┬─ binary_op: *
+  │     │ │ │ │ ├─ location: k
+  │     │ │ │ │ └─ location: k
+  │     │ │ │ └─ location: n
+  │     │ │ └─ location: p
+  │     │ └─┬─ block
+  │     │   └─┬─┬─ assignment
+  │     │     │ ├─ location: p
+  │     │     │ └─┬─ binary_op: !=
+  │     │     │   ├─┬─ binary_op: *
+  │     │     │   │ ├─┬─ binary_op: /
+  │     │     │   │ │ ├─ location: n
+  │     │     │   │ │ └─ location: k
+  │     │     │   │ └─ location: k
+  │     │     │   └─ location: n
+  │     │     └─┬─ assignment
+  │     │       ├─ location: k
+  │     │       └─┬─ binary_op: +
+  │     │         ├─ location: k
+  │     │         └─ literal: i32, 2
+  │     └─┬─ if
+  │       ├─ location: p
+  │       ├─┬─ block
+  │       │ └─┬─┬─ expression
+  │       │   │ └─┬─ builtin: @print
+  │       │   │   └─┬─ location: n
+  │       │   │     └─ literal: []const u8, " is prime\n"
+  │       │   └─┬─ assignment
+  │       │     ├─ location: count
+  │       │     └─┬─ binary_op: +
+  │       │       ├─ location: count
+  │       │       └─ literal: i32, 1
+  │       └─ None
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─┬─ location: count
+        └─ literal: u8, '\n'
+
+29.
+Syntax error at line 31, token=IDENTIFIER
+Syntax error at line 33, token=RBRACE
+Syntax error at line 37, token=RBRACE
+Syntax error at line 40, token=RBRACE
+Syntax error at line 43, token=RBRACE
+
+30.
+┬─ program
+└─┬─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ literal: i32, 0
+  ├─┬─ while
+  │ ├─ literal: bool, true
+  │ └─┬─ block
+  │   └─┬─┬─ assignment
+  │     │ ├─ location: n
+  │     │ └─┬─ binary_op: +
+  │     │   ├─ location: n
+  │     │   └─ literal: i32, 1
+  │     ├─┬─ if
+  │     │ ├─┬─ binary_op: ==
+  │     │ │ ├─ location: n
+  │     │ │ └─ literal: i32, 5
+  │     │ ├─┬─ block
+  │     │ │ └─── continue
+  │     │ └─ None
+  │     ├─┬─ expression
+  │     │ └─┬─ builtin: @print
+  │     │   └─── location: n
+  │     └─┬─ if
+  │       ├─┬─ binary_op: >
+  │       │ ├─ location: n
+  │       │ └─ literal: i32, 10
+  │       ├─┬─ block
+  │       │ └─── break
+  │       └─ None
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ unary_op: -
+          └─ literal: i32, 1
+
+31.
+┬─ program
+└─┬─┬─ const: newline
+  │ ├─ None
+  │ └─ literal: u8, '\n'
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └─┬─ literal: []const u8, "hello"
+        ├─ location: newline
+        ├─ literal: []const u8, "world"
+        └─ location: newline
+
+32.
+┬─ program
+└─┬─┬─ variable: x
+  │ ├─ type: i32
+  │ └─┬─ unary_op: -
+  │   └─ literal: i32, 3
+  └─┬─ if
+    ├─┬─ binary_op: >
+    │ ├─ location: x
+    │ └─ literal: i32, 0
+    ├─┬─ block
+    │ └───┬─ expression
+    │     └─┬─ builtin: @print
+    │       └─── location: x
+    └─┬─ block
+      └───┬─ expression
+          └─┬─ builtin: @print
+            └───┬─ unary_op: -
+                └─ location: x
+
+33.
+┬─ program
+└─┬─┬─ const: fa
+  │ ├─ None
+  │ └─ literal: f64, 1.0
+  ├─┬─ variable: fb
+  │ ├─ type: f64
+  │ └─ literal: f64, 2.0
+  ├─┬─ variable: fc
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: fc
+  │ └─┬─ binary_op: +
+  │   ├─┬─ binary_op: +
+  │   │ ├─ location: fa
+  │   │ └─ location: fb
+  │   └─ literal: f64, 3.0
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── location: fc
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─ location: fa
+  │       └─ location: fb
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: -
+  │       ├─ location: fa
+  │       └─ location: fb
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: *
+  │       ├─ location: fb
+  │       └─ location: fc
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: /
+  │       ├─ location: fc
+  │       └─ location: fb
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: +
+  │       └─ location: fa
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: -
+  │       └─ location: fa
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: +
+          ├─ location: fa
+          └─┬─ binary_op: *
+            ├─ location: fb
+            └─ location: fc
+
+34.
+┬─ program
+└─┬─┬─ const: a
+  │ ├─ None
+  │ └─ literal: i32, 1
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 2
+  ├─┬─ variable: c
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: c
+  │ └─┬─ binary_op: +
+  │   ├─┬─ binary_op: +
+  │   │ ├─ location: a
+  │   │ └─ location: b
+  │   └─ literal: i32, 3
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── location: c
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: -
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: *
+  │       ├─ location: b
+  │       └─ location: c
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: /
+  │       ├─ location: c
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: +
+  │       └─ location: a
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: -
+  │       └─ location: a
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: +
+  │       ├─┬─ unary_op: -
+  │       │ └─ location: a
+  │       └─ location: b
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: +
+          ├─ location: a
+          └─┬─ binary_op: *
+            ├─ location: b
+            └─ location: c
+
+35.
+┬─ program
+└─┬─┬─ const: xmin
+  │ ├─ None
+  │ └─┬─ unary_op: -
+  │   └─ literal: f64, 2.
+  ├─┬─ const: xmax
+  │ ├─ None
+  │ └─ literal: f64, 1.
+  ├─┬─ const: ymin
+  │ ├─ None
+  │ └─┬─ unary_op: -
+  │   └─ literal: f64, 1.5
+  ├─┬─ const: ymax
+  │ ├─ None
+  │ └─ literal: f64, 1.5
+  ├─┬─ const: width
+  │ ├─ None
+  │ └─ literal: f64, 80.
+  ├─┬─ const: height
+  │ ├─ None
+  │ └─ literal: f64, 40.
+  ├─┬─ const: threshhold
+  │ ├─ None
+  │ └─ literal: i32, 1000
+  ├─┬─ variable: dx
+  │ ├─ type: f64
+  │ └─┬─ binary_op: /
+  │   ├─┬─ binary_op: -
+  │   │ ├─ location: xmax
+  │   │ └─ location: xmin
+  │   └─ location: width
+  ├─┬─ variable: dy
+  │ ├─ type: f64
+  │ └─┬─ binary_op: /
+  │   ├─┬─ binary_op: -
+  │   │ ├─ location: ymax
+  │   │ └─ location: ymin
+  │   └─ location: height
+  ├─┬─ variable: y
+  │ ├─ type: f64
+  │ └─ location: ymax
+  ├─┬─ variable: x
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ variable: _x
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ variable: _y
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ variable: xtemp
+  │ ├─ type: f64
+  │ └─ None
+  ├─┬─ variable: n
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: in_mandel
+  │ ├─ type: bool
+  │ └─ None
+  └─┬─ while
+    ├─┬─ binary_op: >=
+    │ ├─ location: y
+    │ └─ location: ymin
+    └─┬─ block
+      └─┬─┬─ assignment
+        │ ├─ location: x
+        │ └─ location: xmin
+        ├─┬─ while
+        │ ├─┬─ binary_op: <
+        │ │ ├─ location: x
+        │ │ └─ location: xmax
+        │ └─┬─ block
+        │   └─┬─┬─ assignment
+        │     │ ├─ location: _x
+        │     │ └─ literal: f64, .0
+        │     ├─┬─ assignment
+        │     │ ├─ location: _y
+        │     │ └─ literal: f64, .0
+        │     ├─┬─ assignment
+        │     │ ├─ location: n
+        │     │ └─ location: threshhold
+        │     ├─┬─ assignment
+        │     │ ├─ location: in_mandel
+        │     │ └─ literal: bool, true
+        │     ├─┬─ while
+        │     │ ├─┬─ binary_op: >
+        │     │ │ ├─ location: n
+        │     │ │ └─ literal: i32, 0
+        │     │ └─┬─ block
+        │     │   └─┬─┬─ assignment
+        │     │     │ ├─ location: xtemp
+        │     │     │ └─┬─ binary_op: +
+        │     │     │   ├─┬─ binary_op: -
+        │     │     │   │ ├─┬─ binary_op: *
+        │     │     │   │ │ ├─ location: _x
+        │     │     │   │ │ └─ location: _x
+        │     │     │   │ └─┬─ binary_op: *
+        │     │     │   │   ├─ location: _y
+        │     │     │   │   └─ location: _y
+        │     │     │   └─ location: x
+        │     │     ├─┬─ assignment
+        │     │     │ ├─ location: _y
+        │     │     │ └─┬─ binary_op: +
+        │     │     │   ├─┬─ binary_op: *
+        │     │     │   │ ├─┬─ binary_op: *
+        │     │     │   │ │ ├─ literal: f64, 2.0
+        │     │     │   │ │ └─ location: _x
+        │     │     │   │ └─ location: _y
+        │     │     │   └─ location: y
+        │     │     ├─┬─ assignment
+        │     │     │ ├─ location: _x
+        │     │     │ └─ location: xtemp
+        │     │     ├─┬─ assignment
+        │     │     │ ├─ location: n
+        │     │     │ └─┬─ binary_op: -
+        │     │     │   ├─ location: n
+        │     │     │   └─ literal: i32, 1
+        │     │     └─┬─ if
+        │     │       ├─┬─ binary_op: >
+        │     │       │ ├─┬─ binary_op: +
+        │     │       │ │ ├─┬─ binary_op: *
+        │     │       │ │ │ ├─ location: _x
+        │     │       │ │ │ └─ location: _x
+        │     │       │ │ └─┬─ binary_op: *
+        │     │       │ │   ├─ location: _y
+        │     │       │ │   └─ location: _y
+        │     │       │ └─ literal: f64, 4.0
+        │     │       ├─┬─ block
+        │     │       │ └─┬─┬─ assignment
+        │     │       │   │ ├─ location: in_mandel
+        │     │       │   │ └─ literal: bool, false
+        │     │       │   └─┬─ assignment
+        │     │       │     ├─ location: n
+        │     │       │     └─ literal: i32, 0
+        │     │       └─ None
+        │     ├─┬─ if
+        │     │ ├─ location: in_mandel
+        │     │ ├─┬─ block
+        │     │ │ └───┬─ expression
+        │     │ │     └─┬─ builtin: @print
+        │     │ │       └─── literal: u8, '*'
+        │     │ └─┬─ block
+        │     │   └───┬─ expression
+        │     │       └─┬─ builtin: @print
+        │     │         └─── literal: u8, '.'
+        │     └─┬─ assignment
+        │       ├─ location: x
+        │       └─┬─ binary_op: +
+        │         ├─ location: x
+        │         └─ location: dx
+        ├─┬─ expression
+        │ └─┬─ builtin: @print
+        │   └─── literal: u8, '\n'
+        └─┬─ assignment
+          ├─ location: y
+          └─┬─ binary_op: -
+            ├─ location: y
+            └─ location: dy
+
+36.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: u8
+  │ └─ literal: u8, 'a'
+  ├─┬─ variable: b
+  │ ├─ type: u8
+  │ └─ literal: u8, 'b'
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: ==
+  │       ├─ location: a
+  │       └─ location: b
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: !=
+          ├─ location: a
+          └─ location: b
+
+37.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: f64
+  │ └─ literal: f64, 2.0
+  ├─┬─ variable: b
+  │ ├─ type: f64
+  │ └─ literal: f64, 3.0
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: ==
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: !=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: and
+  │       ├─┬─ binary_op: <
+  │       │ ├─ location: a
+  │       │ └─ location: b
+  │       └─┬─ binary_op: >
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─┬─ binary_op: <
+  │       │ ├─ location: a
+  │       │ └─ location: b
+  │       └─┬─ binary_op: >
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: !
+  │       └─┬─ binary_op: <
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: bool, true
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: bool, false
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─┬─ unary_op: !
+  │       │ └─┬─ binary_op: <
+  │       │   ├─ location: a
+  │       │   └─ location: b
+  │       └─ literal: bool, false
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: or
+          ├─┬─ binary_op: or
+          │ ├─┬─ binary_op: <
+          │ │ ├─ literal: f64, 2.0
+          │ │ └─ literal: f64, 3.0
+          │ └─┬─ binary_op: >
+          │   ├─ literal: f64, 3.0
+          │   └─ literal: f64, 4.0
+          └─┬─ binary_op: <
+            ├─ literal: f64, 10.0
+            └─ literal: f64, 1.0
+
+38.
+┬─ program
+└─┬─┬─ variable: a
+  │ ├─ type: i32
+  │ └─ literal: i32, 2
+  ├─┬─ variable: b
+  │ ├─ type: i32
+  │ └─ literal: i32, 3
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: <=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: >=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: ==
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: !=
+  │       ├─ location: a
+  │       └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: and
+  │       ├─┬─ binary_op: <
+  │       │ ├─ location: a
+  │       │ └─ location: b
+  │       └─┬─ binary_op: >
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─┬─ binary_op: <
+  │       │ ├─ location: a
+  │       │ └─ location: b
+  │       └─┬─ binary_op: >
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ unary_op: !
+  │       └─┬─ binary_op: <
+  │         ├─ location: a
+  │         └─ location: b
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: bool, true
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── literal: bool, false
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─┬─ unary_op: !
+  │       │ └─┬─ binary_op: <
+  │       │   ├─ location: a
+  │       │   └─ location: b
+  │       └─ literal: bool, false
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─┬─ binary_op: or
+  │       │ ├─┬─ binary_op: <
+  │       │ │ ├─ literal: i32, 2
+  │       │ │ └─ literal: i32, 3
+  │       │ └─┬─ binary_op: >
+  │       │   ├─ literal: i32, 3
+  │       │   └─ literal: i32, 4
+  │       └─┬─ binary_op: <
+  │         ├─ literal: i32, 10
+  │         └─ literal: i32, 1
+  ├─┬─ variable: c
+  │ ├─ type: bool
+  │ └─ literal: bool, true
+  ├─┬─ variable: d
+  │ ├─ type: bool
+  │ └─ literal: bool, false
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: and
+  │       ├─ location: c
+  │       └─ location: d
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─ location: c
+  │       └─ location: d
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ unary_op: !
+          └─ location: c
+
+39.
+┬─ program
+└─┬─┬─ variable: x
+  │ ├─ None
+  │ └─ literal: i32, 1
+  ├─┬─ variable: y
+  │ ├─ None
+  │ └─ literal: i32, 0
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └───┬─ binary_op: or
+  │       ├─ literal: bool, true
+  │       └─┬─ binary_op: ==
+  │         ├─┬─ binary_op: /
+  │         │ ├─ location: x
+  │         │ └─ location: y
+  │         └─ literal: i32, 0
+  └─┬─ expression
+    └─┬─ builtin: @print
+      └───┬─ binary_op: and
+          ├─ literal: bool, false
+          └─┬─ binary_op: ==
+            ├─┬─ binary_op: /
+            │ ├─ location: x
+            │ └─ location: y
+            └─ literal: i32, 0
+
+40.
+Syntax error at line 8, token=SEMI
+┬─ program
+└─┬─┬─ variable: x
+  │ ├─ type: i32
+  │ └─ literal: f64, 2.5
+  ├─┬─ variable: y
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: y
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ variable: z
+  │ ├─ type: i32
+  │ └─ None
+  ├─┬─ assignment
+  │ ├─ location: z
+  │ └─ literal: f64, 4.5
+  ├─┬─ assignment
+  │ ├─ location: w
+  │ └─ literal: f64, 4.5
+  ├─┬─ const: pi
+  │ ├─ None
+  │ └─ literal: f64, 3.14159
+  ├─┬─ assignment
+  │ ├─ location: pi
+  │ └─ literal: f64, 2.71828
+  ├─┬─ if
+  │ ├─ literal: i32, 2
+  │ ├─┬─ block
+  │ │ └─ None
+  │ └─┬─ block
+  │   └─ None
+  ├─┬─ while
+  │ ├─ literal: f64, 2.5
+  │ └─┬─ block
+  │   └─ None
+  ├─┬─ expression
+  │ └─┬─ builtin: @print
+  │   └─── location: i32
+  ├─┬─ assignment
+  │ ├─ location: int
+  │ └─ literal: i32, 2
+  ├─┬─ variable: i32
+  │ ├─ type: d
+  │ └─ None
+  ├─ break
+  └─ continue

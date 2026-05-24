@@ -154,7 +154,7 @@ class zigParser(Parser):
 
     @_('FLOAT')
     def expr(self, p):
-        return 'literal: f64, ' + str(p.FLOAT)
+        return 'literal: f64, ' + p.FLOAT
 
     @_('KEYWORD_true')
     def expr(self, p):

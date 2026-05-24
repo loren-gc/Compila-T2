@@ -74,7 +74,7 @@ class zigParser(Parser):
 
     @_('LBRACE stmtlist RBRACE')
     def block(self, p):
-        return ('block', p.stmtlist)
+        return ('block', p.stmtlist if p.stmtlist else None)
 
     @_('IDENTIFIER')
     def type(self, p):

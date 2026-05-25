@@ -1,258 +1,212 @@
 # High level function that takes input tokens and turns it into a syntax tree.
 # This is a natural place to use some kind of generator function.
 
+import sys
 from sly import Parser
+from uzig_lexer import zigLexer
+
+
+def _node(tag, *children):
+    return (tag,) + children
+
 
 class zigParser(Parser):
 
     tokens = zigLexer.tokens
-    precedence = ('left', 'KEYWORD_or'), ('left', 'KEYWORD_and'), ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'), ('left', 'LARROW', 'RARROW', 'LARROWEQUAL', 'RARROWEQUAL'), ('left', 'PLUS', 'MINUS'), ('left', 'ASTERISK', 'SLASH', 'PERCENT'), ('right', 'UMINUS', 'EXCLAMATIONMARK'), ('nonassoc', 'IFX'), ('nonassoc', 'KEYWORD_else')
+    precedence = ( ('nonassoc', 'LOWER_THAN_ELSE'), ('nonassoc', 'KEYWORD_else'), ('left', 'KEYWORD_or'), ('left', 'KEYWORD_and'), ('left', 'EQUALEQUAL', 'EXCLAMATIONMARKEQUAL'), ('left', 'LARROW', 'LARROWEQUAL', 'RARROW', 'RARROWEQUAL'), ('left', 'PLUS', 'MINUS'), ('left', 'ASTERISK', 'SLASH', 'PERCENT'), ('right', 'UMINUS', 'UPLUS', 'EXCLAMATIONMARK'),
+    )
 
-    @_('stmtlist')
+    @_('statement_list')
     def program(self, p):
-        return ('program', p.stmtlist)
+        return _node('program', p.statement_list)
 
-    @_('stmtlist stmt')
-    def stmtlist(self, p):
-        return p.stmtlist + [p.stmt]
+    @_('statement_list statement')
+    def statement_list(self, p):
+        return p.statement_list + [p.statement]
 
-    @_('')
-    def stmtlist(self, p):
-        return []
+    @_('statement')
+    def statement_list(self, p):
+        return [p.statement]
 
-    @_('KEYWORD_var IDENTIFIER COLON type EQUAL expr SEMI')
-    def stmt(self, p):
-        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
+    @_('assignment_statement',
+       'variable_definition',
+       'const_definition',
+       'if_statement',
+       'while_statement',
+       'break_statement',
+       'continue_statement',
+       'expression_statement')
+    def statement(self, p):
+        return p[0]
+
+    @_('location EQUAL expression SEMI')
+    def assignment_statement(self, p):
+        return _node('assignment', p.location, p.expression)
+
+    @_('KEYWORD_var IDENTIFIER COLON type EQUAL expression SEMI')
+    def variable_definition(self, p):
+        return _node(f'variable: {p.IDENTIFIER}', p.type, p.expression)
 
     @_('KEYWORD_var IDENTIFIER COLON type SEMI')
-    def stmt(self, p):
-        return ('variable: ' + p.IDENTIFIER, 'type: ' + p.type, None)
+    def variable_definition(self, p):
+        return _node(f'variable: {p.IDENTIFIER}', p.type, 'None')
 
-    @_('KEYWORD_var IDENTIFIER EQUAL expr SEMI')
-    def stmt(self, p):
-        return ('variable: ' + p.IDENTIFIER, None, p.expr)
+    @_('KEYWORD_var IDENTIFIER EQUAL expression SEMI')
+    def variable_definition(self, p):
+        return _node(f'variable: {p.IDENTIFIER}', 'None', p.expression)
 
-    @_('KEYWORD_const IDENTIFIER COLON type EQUAL expr SEMI')
-    def stmt(self, p):
-        return ('const: ' + p.IDENTIFIER, 'type: ' + p.type, p.expr)
+    @_('KEYWORD_const IDENTIFIER COLON type EQUAL expression SEMI')
+    def const_definition(self, p):
+        return _node(f'const: {p.IDENTIFIER}', p.type, p.expression)
 
-    @_('KEYWORD_const IDENTIFIER EQUAL expr SEMI')
-    def stmt(self, p):
-        return ('const: ' + p.IDENTIFIER, None, p.expr)
+    @_('KEYWORD_const IDENTIFIER EQUAL expression SEMI')
+    def const_definition(self, p):
+        return _node(f'const: {p.IDENTIFIER}', 'None', p.expression)
 
-    @_('IDENTIFIER EQUAL expr SEMI')
-    def stmt(self, p):
-        return ('assignment', 'location: ' + p.IDENTIFIER, p.expr)
+    @_('KEYWORD_if LPAREN expression RPAREN block %prec LOWER_THAN_ELSE')
+    def if_statement(self, p):
+        return _node('if', p.expression, p.block, 'None')
 
-    @_('KEYWORD_if LPAREN expr RPAREN block %prec IFX')
-    def stmt(self, p):
-        return ('if', p.expr, p.block, None)
+    @_('KEYWORD_if LPAREN expression RPAREN block KEYWORD_else block')
+    def if_statement(self, p):
+        return _node('if', p.expression, p.block0, p.block1)
 
-    @_('KEYWORD_if LPAREN expr RPAREN block KEYWORD_else stmt')
-    def stmt(self, p):
-        return ('if', p.expr, p.block, p.stmt)
+    @_('KEYWORD_if LPAREN expression RPAREN block KEYWORD_else if_statement')
+    def if_statement(self, p):
+        return _node('if', p.expression, p.block, p.if_statement)
 
-    @_('KEYWORD_while LPAREN expr RPAREN block')
-    def stmt(self, p):
-        return ('while', p.expr, p.block)
+    @_('KEYWORD_while LPAREN expression RPAREN block')
+    def while_statement(self, p):
+        return _node('while', p.expression, p.block)
 
     @_('KEYWORD_break SEMI')
-    def stmt(self, p):
+    def break_statement(self, p):
         return 'break'
 
     @_('KEYWORD_continue SEMI')
-    def stmt(self, p):
+    def continue_statement(self, p):
         return 'continue'
 
-    @_('expr SEMI')
-    def stmt(self, p):
-        return ('expression', p.expr)
+    @_('expression SEMI')
+    def expression_statement(self, p):
+        return _node('expression', p.expression)
 
-    @_('block')
-    def stmt(self, p):
-        return p.block
+    @_('SEMI')
+    def expression_statement(self, p):
+        return _node('expression', 'None')
 
-    @_('LBRACE stmtlist RBRACE')
+    @_('LBRACE statement_list RBRACE')
     def block(self, p):
-        return ('block', p.stmtlist if p.stmtlist else None)
+        return _node('block', p.statement_list)
+
+    @_('LBRACE RBRACE')
+    def block(self, p):
+        return _node('block', 'None')
+
+    @_('expression PLUS expression',
+       'expression MINUS expression',
+       'expression ASTERISK expression',
+       'expression SLASH expression',
+       'expression PERCENT expression',
+       'expression LARROWEQUAL expression',
+       'expression LARROW expression',
+       'expression RARROWEQUAL expression',
+       'expression RARROW expression',
+       'expression EQUALEQUAL expression',
+       'expression EXCLAMATIONMARKEQUAL expression',
+       'expression KEYWORD_and expression',
+       'expression KEYWORD_or expression')
+    def expression(self, p):
+        return _node(f'binary_op: {p[1]}', p.expression0, p.expression1)
+
+    @_('PLUS expression %prec UPLUS',
+       'MINUS expression %prec UMINUS',
+       'EXCLAMATIONMARK expression')
+    def expression(self, p):
+        return _node(f'unary_op: {p[0]}', p.expression)
+
+    @_('literal')
+    def expression(self, p):
+        return p.literal
+
+    @_('location')
+    def expression(self, p):
+        return p.location
+
+    @_('BUILTINIDENTIFIER LPAREN expression_list RPAREN')
+    def expression(self, p):
+        return _node(f'builtin: {p.BUILTINIDENTIFIER}', p.expression_list)
+
+    @_('BUILTINIDENTIFIER LPAREN RPAREN')
+    def expression(self, p):
+        return _node(f'builtin: {p.BUILTINIDENTIFIER}', [])
+
+    @_('LPAREN expression RPAREN')
+    def expression(self, p):
+        return p.expression
+
+    @_('INTEGER')
+    def literal(self, p):
+        return f"literal: i32, {p.INTEGER}"
+
+    @_('FLOAT')
+    def literal(self, p):
+        return f"literal: f64, {p.FLOAT}"
+
+    @_('KEYWORD_true', 'KEYWORD_false')
+    def literal(self, p):
+        return f"literal: bool, {p[0]}"
+
+    @_('STRINGLITERAL')
+    def literal(self, p):
+        return f"literal: []const u8, {p.STRINGLITERAL}"
+
+    @_('CHAR_LITERAL')
+    def literal(self, p):
+        return f"literal: u8, {p.CHAR_LITERAL}"
+
+    @_('expression')
+    def expression_list(self, p):
+        return [p.expression]
+
+    @_('expression_list COMMA expression')
+    def expression_list(self, p):
+        return p.expression_list + [p.expression]
+
+    @_('IDENTIFIER')
+    def location(self, p):
+        return f"location: {p.IDENTIFIER}"
 
     @_('IDENTIFIER')
     def type(self, p):
-        return p.IDENTIFIER
+        return f"type: {p.IDENTIFIER}"
 
-    @_('expr KEYWORD_or expr')
-    def expr(self, p):
-        return ('binary_op: or',  p.expr0, p.expr1)
-
-    @_('expr KEYWORD_and expr')
-    def expr(self, p):
-        return ('binary_op: and', p.expr0, p.expr1)
-
-    @_('expr EQUALEQUAL expr')
-    def expr(self, p):
-        return ('binary_op: ==',  p.expr0, p.expr1)
-
-    @_('expr EXCLAMATIONMARKEQUAL expr')
-    def expr(self, p):
-        return ('binary_op: !=',  p.expr0, p.expr1)
-
-    @_('expr LARROW expr')
-    def expr(self, p):
-        return ('binary_op: <',   p.expr0, p.expr1)
-
-    @_('expr RARROW expr')
-    def expr(self, p):
-        return ('binary_op: >',   p.expr0, p.expr1)
-
-    @_('expr LARROWEQUAL expr')
-    def expr(self, p):
-        return ('binary_op: <=',  p.expr0, p.expr1)
-
-    @_('expr RARROWEQUAL expr')
-    def expr(self, p):
-        return ('binary_op: >=',  p.expr0, p.expr1)
-
-    @_('expr PLUS expr')
-    def expr(self, p):
-        return ('binary_op: +',   p.expr0, p.expr1)
-
-    @_('expr MINUS expr')
-    def expr(self, p):
-        return ('binary_op: -',   p.expr0, p.expr1)
-
-    @_('expr ASTERISK expr')
-    def expr(self, p):
-        return ('binary_op: *',   p.expr0, p.expr1)
-
-    @_('expr SLASH expr')
-    def expr(self, p):
-        return ('binary_op: /',   p.expr0, p.expr1)
-
-    @_('expr PERCENT expr')
-    def expr(self, p):
-        return ('binary_op: %',   p.expr0, p.expr1)
-
-    @_('MINUS expr %prec UMINUS')
-    def expr(self, p):
-        return ('unary_op: -', p.expr)
-    
-    @_('PLUS expr %prec UMINUS')
-    def expr(self, p):
-        return ('unary_op: +', p.expr)
-
-    @_('EXCLAMATIONMARK expr')
-    def expr(self, p):
-        return ('unary_op: !', p.expr)
-
-    @_('LPAREN expr RPAREN')
-    def expr(self, p):
-        return p.expr
-
-    @_('INTEGER')
-    def expr(self, p):
-        return 'literal: i32, ' + str(p.INTEGER)
-
-    @_('FLOAT')
-    def expr(self, p):
-        return 'literal: f64, ' + p.FLOAT
-
-    @_('KEYWORD_true')
-    def expr(self, p):
-        return 'literal: bool, true'
-
-    @_('KEYWORD_false')
-    def expr(self, p):
-        return 'literal: bool, false'
-
-    @_('CHAR_LITERAL')
-    def expr(self, p):
-        return 'literal: u8, ' + str(p.CHAR_LITERAL)
-
-    @_('STRINGLITERAL')
-    def expr(self, p):
-        return 'literal: []const u8, ' + str(p.STRINGLITERAL)
-
-    @_('IDENTIFIER LPAREN arglist RPAREN')
-    def expr(self, p):
-        return ('call: ' + p.IDENTIFIER, p.arglist)
-
-    @_('IDENTIFIER LPAREN RPAREN')
-    def expr(self, p):
-        return ('call: ' + p.IDENTIFIER, [])
-
-    @_('BUILTINIDENTIFIER LPAREN arglist RPAREN')
-    def expr(self, p):
-        return ('builtin: ' + p.BUILTINIDENTIFIER, p.arglist)
-
-    @_('BUILTINIDENTIFIER LPAREN RPAREN')
-    def expr(self, p):
-        return ('builtin: ' + p.BUILTINIDENTIFIER, [])
-
-    @_('IDENTIFIER')
-    def expr(self, p):
-        return 'location: ' + p.IDENTIFIER
-
-    @_('arglist COMMA expr')
-    def arglist(self, p):
-        return p.arglist + [p.expr]
-
-    @_('expr')
-    def arglist(self, p):
-        return [p.expr]
-
-    @_('SEMI')
-    def stmt(self, p):
-        return ('expression', None)
-    
-    """
-    @_('KEYWORD_const IDENTIFIER COLON type SEMI')
-    def stmt(self, p):
-        return ('const: ' + p.IDENTIFIER, 'type: ' + p.type, None)
-    """
-        
     def error(self, token):
-        self._had_error = True
         if token:
             print(f"Syntax error at line {token.lineno}, token={token.type}")
         else:
             print("Parse error in input. EOF")
-        
-def _build_lines(first, other, values):
-    try:
-        yield first + next(values)
-        for value in values:
-            yield other + value
-    except StopIteration:
-        return
 
-def _build_tree(node):
+
+def parse_tokens(token_stream):
+    return zigParser().parse(token_stream)
+
+def _collect_lines(node, lines, indent, last):
+    branch = '└── ' if last else '├── '
+    extension = '    ' if last else '│   '
     if isinstance(node, list):
         if not node:
-            yield ' None'
             return
         node = tuple(node)
     if not isinstance(node, tuple):
-        yield ' ' + str(node)
+        lines.append(indent + branch + str(node))
         return
-    values = [_build_tree(n) for n in node]
-    if len(values) == 1:
-        yield from _build_lines('──', '  ', values[0])
-        return
-    start, *mid, end = values
-    yield from _build_lines('┬─', '│ ', start)
-    for value in mid:
-        yield from _build_lines('├─', '│ ', value)
-    yield from _build_lines('└─', '  ', end)
+    label, *children = node
+    lines.append(indent + branch + str(label))
+    for i, child in enumerate(children):
+        _collect_lines(child, lines, indent + extension, i == len(children) - 1)
 
 def build_tree(root):
-    return '\n'.join(_build_tree(root))
-
-def parse_tokens(tokens):
-    parser = zigParser()
-    parser._had_error = False
-    tree = parser.parse(tokens)
-    if tree is None:
-        return None
-    if parser._had_error and tree[1] == []:
-        return None
-    return tree
+    lines = []
+    _collect_lines(root, lines, '', True)
+    return '\n'.join(lines)
